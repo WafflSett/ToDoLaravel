@@ -12,8 +12,11 @@ toggler.addEventListener('click', (e)=>{
 
 toggler.innerHTML
 let localMode = localStorage.getItem('app-dark-mode');
-if (localMode && localMode == 'true') {
-    document.querySelector('html').classList.add('dark')
+
+if (localMode != null) {
+    if (localMode == 'false') {
+        document.querySelector('html').classList.remove('dark')
+    }
 }
 setTogglerEmoji(toggler, localStorage.getItem('app-dark-mode')=='true');
 

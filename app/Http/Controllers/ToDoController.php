@@ -12,7 +12,7 @@ class ToDoController extends Controller
      */
     public function index()
     {
-        $todos = ToDo::all();
+        $todos = ToDo::simplePaginate(7);
         // dd($todos);
         return view('todos.index', ['todos' => $todos]);
     }
@@ -20,48 +20,79 @@ class ToDoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //     // not used because of layout
+    // }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'Title' => ['required']
+        ], ['Title.required' => 'You must enter a title!']);
+
+        ToDo::create(
+            [
+                'title' => $request->input('Title'),
+                'description' => $request->input('Description'),
+                'isCompleted' => false
+            ]
+        );
+
+        return redirect('/todos');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(ToDo $toDo)
-    {
-        //
-    }
+    // public function show(ToDo $toDo)
+    // {
+    //     // not used because of layout
+    // }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ToDo $toDo)
+    public function edit(int $editId)
     {
-        //
+        $todos = ToDo::simplePaginate(7);
+        return view('todos.index', ['todos' => $todos, 'editId' => $editId]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ToDo $toDo)
+    public function update(Request $request, int $id)
     {
-        //
+        if ($request->method()==="PATCH") {
+            $todo = ToDo::find($id);
+            $todo->update([
+                'isCompleted'=>($request->input('isCompleted')==='on'?1:0)
+            ]);
+        }
+        else{
+            $request->validate([
+                'Title' => ['required']
+            ], ['Title.required' => 'You must enter a title!']);
+            $todo = ToDo::find($id);
+            $todo->update([
+                'title'=>$request->input('Title'),
+                'description'=>$request->input('Description')
+            ]);
+        }
+        return redirect('/todos');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ToDo $toDo)
+    public function destroy(int $id)
     {
-        //
+        $todo = ToDo::find($id);
+        $todo->delete();
+        return redirect('/todos');
     }
 }
