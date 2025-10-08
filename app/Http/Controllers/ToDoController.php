@@ -13,7 +13,6 @@ class ToDoController extends Controller
     public function index()
     {
         $todos = ToDo::simplePaginate(7);
-        // dd($todos);
         return view('todos.index', ['todos' => $todos]);
     }
 
@@ -58,7 +57,7 @@ class ToDoController extends Controller
      */
     public function edit(int $editId)
     {
-        $todos = ToDo::simplePaginate(7);
+        $todos = ToDo::simplePaginate(7)->withQueryString();
         return view('todos.index', ['todos' => $todos, 'editId' => $editId]);
     }
 
@@ -83,6 +82,9 @@ class ToDoController extends Controller
                 'description'=>$request->input('Description')
             ]);
         }
+        if (isset($_GET['page'])) {
+            return redirect('/todos?page='.$_GET['page']);
+        }
         return redirect('/todos');
     }
 
@@ -93,6 +95,9 @@ class ToDoController extends Controller
     {
         $todo = ToDo::find($id);
         $todo->delete();
+        if (isset($_GET['page'])) {
+            return redirect('/todos?page='.$_GET['page']);
+        }
         return redirect('/todos');
     }
 }

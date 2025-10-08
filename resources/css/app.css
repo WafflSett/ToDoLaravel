@@ -12,6 +12,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-body{
-    transition: .2s;
-}
+/* main {
+    transition: .1s;
+} */

@@ -7,20 +7,21 @@ toggler.addEventListener('click', (e)=>{
     }else{
         localStorage.setItem('app-dark-mode', 'true');
     }
-    setTogglerEmoji(toggler, localStorage.getItem('app-dark-mode')=='true');
+    setTogglerEmoji(localStorage.getItem('app-dark-mode')=='true');
 })
 
-toggler.innerHTML
-let localMode = localStorage.getItem('app-dark-mode');
-
-if (localMode != null) {
-    if (localMode == 'false') {
-        document.querySelector('html').classList.remove('dark')
+document.addEventListener('DOMContentLoaded', ()=>{
+    let localMode = localStorage.getItem('app-dark-mode');
+    if (localMode != null) {
+        if (localMode == 'false') {
+            document.querySelector('html').classList.remove('dark')
+        }
     }
-}
-setTogglerEmoji(toggler, localStorage.getItem('app-dark-mode')=='true');
+    setTogglerEmoji(localStorage.getItem('app-dark-mode')=='true');
+})
 
-function setTogglerEmoji(toggler, dark){
+
+function setTogglerEmoji(dark){
     if (dark) {
         toggler.innerHTML = '☀️'
     }else{

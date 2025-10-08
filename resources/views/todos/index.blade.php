@@ -45,7 +45,13 @@
                     class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
                     @if (isset($editId) && $editId == $todo->id)
                         {{-- Inline form --}}
-                        <form action="/todos/{{ $editId }}" method="post">
+                        <form
+                            @if (!isset($_GET['page']))
+                                action="/todos/{{ $todo->id }}"
+                            @else
+                                action="/todos/{{ $todo->id }}?page={{$_GET['page']}}"
+                            @endif
+                            method="post">
                             @csrf
                             @method('PUT')
                             <td class="px-6 py-4 w-2/12">
@@ -57,7 +63,7 @@
                             </td>
                             <td class="px-6 py-4 w-5/12 space-x-2">
                                 <input type="text" name="Description" value="{{ $todo->description }}"
-                                    class="rounded-md dark:border-gray-400 border-gray-400 p-2 w-1/2 align-middle border-1 bg-gray-200 dark:bg-gray-600 dark:text-gray-100 text-gray-800">
+                                    class="rounded-md dark:border-gray-400 border-gray-400 p-2 w-1/2 align-middle border-1 cursor-pointer bg-gray-200 dark:bg-gray-600 dark:text-gray-100 text-gray-800">
                                 <button type="submit"
                                     class="rounded-lg p-2 px-3 dark:bg-blue-600 bg-blue-500 dark:hover:bg-blue-700 hover:bg-blue-600 text-gray-200">Save</button>
                                 <a href="/todos"
@@ -77,7 +83,13 @@
                     @endif
                     {{-- Completion checkbox --}}
                     <td class="px-2 py-4 text-center w-1/12">
-                        <form action="/todos/{{ $todo->id }}" method="post">
+                        <form
+                        @if (!isset($_GET['page']))
+                            action="/todos/{{ $todo->id }}"
+                        @else
+                            action="/todos/{{ $todo->id }}?page={{$_GET['page']}}"
+                        @endif
+                        method="post">
                             @csrf
                             @method('PATCH')
                             <input type="checkbox" {{ $todo->isCompleted == 1 ? 'checked' : '' }} name="isCompleted"
@@ -96,13 +108,23 @@
                                     pointer-events-none
                                     bg-gray-400 @endif
                              rounded-lg"
-                            href="/todos/{{ $todo->id }}/edit">
+                            @if (isset($_GET['page']))
+                                href="/todos/{{ $todo->id }}/edit?page={{ $_GET['page'] }}"
+                            @else
+                                href="/todos/{{ $todo->id }}/edit"
+                            @endif>
                             ✏️
                         </a>
                     </td>
                     {{-- Delete button --}}
                     <td class="px-2 py-4 text-center w-1/12">
-                        <form action="/todos/{{ $todo->id }}" method="post">
+                        <form
+                        @if (!isset($_GET['page']))
+                            action="/todos/{{ $todo->id }}"
+                        @else
+                            action="/todos/{{ $todo->id }}?page={{$_GET['page']}}"
+                        @endif
+                        method="post">
                             @csrf
                             @method('DELETE')
                             <button
