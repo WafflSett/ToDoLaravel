@@ -74,11 +74,11 @@ class ToDoController extends Controller
         }
         else{
             $request->validate([
-                'Title' => ['required']
-            ], ['Title.required' => 'You must enter a title!']);
+                'EditTitle' => ['required']
+            ], ['EditTitle.required' => 'You must enter a title!']);
             $todo = ToDo::find($id);
             $todo->update([
-                'title'=>$request->input('Title'),
+                'title'=>$request->input('EditTitle'),
                 'description'=>$request->input('Description')
             ]);
         }
