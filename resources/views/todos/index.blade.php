@@ -55,9 +55,9 @@
                             @csrf
                             @method('PUT')
                             <td class="px-6 py-4 w-2/12">
-                                <input type="text" name="Title" value="{{ $todo->title }}"
+                                <input type="text" name="EditTitle" value="{{ $todo->title }}"
                                     class="rounded-md dark:border-gray-400 w-50 border-gray-400 p-2 align-middle border-1 bg-gray-200 dark:bg-gray-600 dark:text-gray-100 text-gray-800">
-                                @error('Title')
+                                @error('EditTitle')
                                     <div class="text-red-500 text-xs mt-0.5">{{ $message }}</div>
                                 @enderror
                             </td>
